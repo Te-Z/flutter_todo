@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo_poc/models/todo.dart';
+import 'package:todo_poc/db/my_database.dart';
 
 abstract class TodoState extends Equatable {
   const TodoState();

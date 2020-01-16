@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo_poc/models/todo.dart';
+import 'package:todo_poc/blocs/todo_repository.dart';
+import 'package:todo_poc/db/my_database.dart';
 
 abstract class TodosEvent extends Equatable {
   const TodosEvent();
@@ -10,10 +11,10 @@ abstract class TodosEvent extends Equatable {
 
 class LoadTodos extends TodosEvent {}
 
-class AddTodos extends TodosEvent {
+class AddTodo extends TodosEvent {
   final Todo todo;
 
-  const AddTodos(this.todo);
+  const AddTodo(this.todo);
 
   @override
   List<Object> get props => [todo];
@@ -23,15 +24,15 @@ class AddTodos extends TodosEvent {
 }
 
 class UpdateTodo extends TodosEvent {
-  final Todo updatedTodo;
+  final Todo todo;
 
-  const UpdateTodo(this.updatedTodo);
-
-  @override
-  List<Object> get props => [updatedTodo];
+  const UpdateTodo(this.todo);
 
   @override
-  String toString() => 'UpdateTodo { updatedTodo: $updatedTodo }';
+  List<Object> get props => [todo];
+
+  @override
+  String toString() => 'UpdateTodo { updatedTodo: $todo }';
 }
 
 class DeleteTodo extends TodosEvent {
