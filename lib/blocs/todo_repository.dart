@@ -7,7 +7,7 @@ class TodosRepository {
 
   Future<List<Todo>> getAllTodos() async => await dao.allTodos;
   Stream<List<Todo>> watchAllTodos() => dao.watchAllTodos;
-  Future<int> addTodoEntry(TodosCompanion entry) async => await dao.addTodoEntry(entry);
-  Future updateTodoEntry(TodosCompanion entry) async => await dao.updateTodoEntry(entry);
-  Future deleteTodo(TodosCompanion entry) async => await dao.deleteTodo(entry);
+  Future<int> addTodoEntry(Todo entry) async => await dao.addTodoEntry(entry);
+  Future updateTodoEntry(Todo entry) async => await dao.updateTodoEntry(entry);
+  Future deleteTodo(Todo entry) async => await dao.deleteTodo(entry);
 }

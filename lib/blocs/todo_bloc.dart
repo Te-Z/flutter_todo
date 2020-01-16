@@ -29,7 +29,8 @@ class TodoBloc extends Bloc<TodosEvent, TodoState> {
     try {
       final todos = await this.repository.getAllTodos();
       yield TodosLoaded(todos);
-    } catch (_){
+    } catch (e){
+      print("_mapLoadTodosToState: TodosNotLoaded ==> $_mapLoadTodosToState");
       yield TodosNotLoaded();
     }
   }
@@ -40,7 +41,7 @@ class TodoBloc extends Bloc<TodosEvent, TodoState> {
           ..add(event.todo);
 
       yield TodosLoaded(updatedTodos);
-      _saveTodos(updatedTodos);
+      repository.addTodoEntry(updatedTodos[0]);
     }
   }
 
@@ -52,7 +53,7 @@ class TodoBloc extends Bloc<TodosEvent, TodoState> {
           .toList();
 
       yield TodosLoaded(updatedTodos);
-      _saveTodos(updatedTodos);
+      repository.updateTodoEntry(updatedTodos[0]);
     }
   }
 
@@ -63,7 +64,7 @@ class TodoBloc extends Bloc<TodosEvent, TodoState> {
           .where((todo) => todo.id != event.todo.id)
           .toList();
       yield TodosLoaded(updatedTodos);
-      _saveTodos(updatedTodos);
+      repository.deleteTodo(updatedTodos[0]);
     }
   }
 

@@ -47,12 +47,12 @@ class TodosDao extends DatabaseAccessor<MyDatabase> with _$TodosDaoMixin {
   ///  });
   /// }
   ///
-  Future<int> addTodoEntry(TodosCompanion entry) => into(todos).insert(entry);
+  Future<int> addTodoEntry(Todo entry) => into(todos).insert(entry);
 
   /// Utiliser replace va mettre à jour tous les champs qui ne sont pas marqués comme primary key.
   /// Il va aussi s'assurer que seul l'objet ayant la meme primary key sera mis à jour.
-  Future updateTodoEntry(TodosCompanion entry) => update(todos).replace(entry);
+  Future updateTodoEntry(Todo entry) => update(todos).replace(entry);
 
   /// Supprime une t odo
-  Future deleteTodo(TodosCompanion entry) => delete(todos).delete(entry);
+  Future deleteTodo(Todo entry) => delete(todos).delete(entry);
 }
