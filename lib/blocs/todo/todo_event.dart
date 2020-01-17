@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo_poc/blocs/todo_repository.dart';
+import 'package:todo_poc/blocs/todo/todo_repository.dart';
 import 'package:todo_poc/db/my_database.dart';
 
 abstract class TodosEvent extends Equatable {

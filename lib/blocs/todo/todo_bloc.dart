@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_poc/blocs/todo_event.dart';
-import 'package:todo_poc/blocs/todo_repository.dart';
-import 'package:todo_poc/blocs/todo_state.dart';
+import 'package:todo_poc/blocs/todo/todo_event.dart';
+import 'package:todo_poc/blocs/todo/todo_repository.dart';
+import 'package:todo_poc/blocs/todo/todo_state.dart';
 import 'package:todo_poc/db/my_database.dart';
 
 class TodoBloc extends Bloc<TodosEvent, TodoState> {
