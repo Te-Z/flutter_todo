@@ -14,6 +14,7 @@ class TodoBloc extends Bloc<TodosEvent, TodoState> {
 
   @override
   Stream<TodoState> mapEventToState(event) async*{
+    print("mapEventToState = $event");
     if (event is LoadTodos) {
       yield* _mapLoadTodosToState();
     } else if (event is AddTodo) {
@@ -41,6 +42,7 @@ class TodoBloc extends Bloc<TodosEvent, TodoState> {
           ..add(event.todo);
 
       yield TodosLoaded(updatedTodos);
+      print("updatedTodos[0]: ${updatedTodos[0]}");
       repository.addTodoEntry(updatedTodos[0]);
     }
   }

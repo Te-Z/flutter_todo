@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_poc/blocs/todo_bloc.dart';
+import 'package:todo_poc/blocs/todo_event.dart';
 import 'package:todo_poc/blocs/todo_repository.dart';
+import 'package:todo_poc/db/my_database.dart';
 
 import 'blocs/todo_state.dart';
 
@@ -9,7 +11,6 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  TodosRepository _repository = TodosRepository();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider<TodoBloc>(
-        create: (context) => TodoBloc(_repository),
+        create: (context) => TodoBloc(TodosRepository(TodosDao(MyDatabase()))),
         child: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
@@ -45,6 +46,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   TodoBloc _todoBloc;
+  TextEditingController _todoController = TextEditingController();
+
+  @override
+  void dispose() {
+    _todoController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,20 +62,60 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocBuilder<TodoBloc, TodoState>(
-        builder: (context, TodoState state){
-          if(state is TodosLoaded){
-            var list = (BlocProvider.of<TodoBloc>(context).state as TodosLoaded).todos;
+      body: Container(
+        margin: EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            /// DATA LISTE
+            Expanded(
+              child: BlocBuilder<TodoBloc, TodoState>(
+                builder: (context, TodoState state){
+                  if(state is TodosLoaded){
+                    var list = (BlocProvider.of<TodoBloc>(context).state as TodosLoaded).todos;
 
-            return ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (ctx, index) => Text(list[index].id.toString())
-            );
-          } else return Text("Pas de données");
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
+                    return ListView.builder(
+                        itemCount: list.length,
+                        itemBuilder: (ctx, index) => Row(
+                          children: <Widget>[
+                            Expanded(child: Text(list[index].note.toString()),),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _todoBloc.add(DeleteTodo(list[index])),
+                            )
+                          ],
+                        )
+                    );
+                  } else {
+                    _todoBloc.add(LoadTodos());
+                    return Text("Pas de données");
+                  }
+                },
+              ),
+            ),
 
+            /// Saisie
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: _todoController,
+                    decoration: InputDecoration(
+                        labelText: "Saisissez un texte"
+                    ),
+                  ),
+                ),
+
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {
+                    _todoBloc.add(AddTodo(Todo(id: 0, isComplete: false, note: _todoController.text, task: "lol")));
+                  },
+                )
+              ],
+            )
+
+          ],
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

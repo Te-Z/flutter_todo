@@ -4,7 +4,7 @@ import 'package:moor_flutter/moor_flutter.dart';
 class Todos extends Table {
 
   BoolColumn get isComplete => boolean().named('isComplete')();
-  TextColumn get id => text().named('id').customConstraint('UNIQUE')();
+  IntColumn get id => integer().named('id').autoIncrement()();
   TextColumn get note => text().named('note')();
   TextColumn get task => text().named('task')();
 

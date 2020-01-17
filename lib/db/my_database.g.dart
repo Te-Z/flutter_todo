@@ -9,7 +9,7 @@ part of 'my_database.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class Todo extends DataClass implements Insertable<Todo> {
   final bool isComplete;
-  final String id;
+  final int id;
   final String note;
   final String task;
   Todo(
@@ -21,11 +21,12 @@ class Todo extends DataClass implements Insertable<Todo> {
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final boolType = db.typeSystem.forDartType<bool>();
+    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     return Todo(
       isComplete: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}isComplete']),
-      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       note: stringType.mapFromDatabaseResponse(data['${effectivePrefix}note']),
       task: stringType.mapFromDatabaseResponse(data['${effectivePrefix}task']),
     );
@@ -34,7 +35,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       {ValueSerializer serializer = const ValueSerializer.defaults()}) {
     return Todo(
       isComplete: serializer.fromJson<bool>(json['isComplete']),
-      id: serializer.fromJson<String>(json['id']),
+      id: serializer.fromJson<int>(json['id']),
       note: serializer.fromJson<String>(json['note']),
       task: serializer.fromJson<String>(json['task']),
     );
@@ -44,7 +45,7 @@ class Todo extends DataClass implements Insertable<Todo> {
       {ValueSerializer serializer = const ValueSerializer.defaults()}) {
     return <String, dynamic>{
       'isComplete': serializer.toJson<bool>(isComplete),
-      'id': serializer.toJson<String>(id),
+      'id': serializer.toJson<int>(id),
       'note': serializer.toJson<String>(note),
       'task': serializer.toJson<String>(task),
     };
@@ -62,7 +63,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     );
   }
 
-  Todo copyWith({bool isComplete, String id, String note, String task}) => Todo(
+  Todo copyWith({bool isComplete, int id, String note, String task}) => Todo(
         isComplete: isComplete ?? this.isComplete,
         id: id ?? this.id,
         note: note ?? this.note,
@@ -94,7 +95,7 @@ class Todo extends DataClass implements Insertable<Todo> {
 
 class TodosCompanion extends UpdateCompanion<Todo> {
   final Value<bool> isComplete;
-  final Value<String> id;
+  final Value<int> id;
   final Value<String> note;
   final Value<String> task;
   const TodosCompanion({
@@ -105,16 +106,15 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   });
   TodosCompanion.insert({
     @required bool isComplete,
-    @required String id,
+    this.id = const Value.absent(),
     @required String note,
     @required String task,
   })  : isComplete = Value(isComplete),
-        id = Value(id),
         note = Value(note),
         task = Value(task);
   TodosCompanion copyWith(
       {Value<bool> isComplete,
-      Value<String> id,
+      Value<int> id,
       Value<String> note,
       Value<String> task}) {
     return TodosCompanion(
@@ -143,12 +143,12 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedTextColumn _id;
+  GeneratedIntColumn _id;
   @override
-  GeneratedTextColumn get id => _id ??= _constructId();
-  GeneratedTextColumn _constructId() {
-    return GeneratedTextColumn('id', $tableName, false,
-        $customConstraints: 'UNIQUE');
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _noteMeta = const VerificationMeta('note');
@@ -228,7 +228,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       map['isComplete'] = Variable<bool, BoolType>(d.isComplete.value);
     }
     if (d.id.present) {
-      map['id'] = Variable<String, StringType>(d.id.value);
+      map['id'] = Variable<int, IntType>(d.id.value);
     }
     if (d.note.present) {
       map['note'] = Variable<String, StringType>(d.note.value);
