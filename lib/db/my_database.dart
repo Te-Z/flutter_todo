@@ -1,13 +1,15 @@
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:todo_poc/db/tables/autre_coloris_table.dart';
 import 'package:todo_poc/db/tables/format_image_table.dart';
-import 'package:todo_poc/db/tables/liste_produits_table.dart';
+import 'package:todo_poc/db/tables/infos_generales_table.dart';
 import 'package:todo_poc/db/tables/produits_table.dart';
+import 'package:todo_poc/db/tables/reference.dart';
 import 'package:todo_poc/db/tables/tarif_table.dart';
 import 'package:todo_poc/db/tables/todos_table.dart';
 
 part 'my_database.g.dart';
 
-@UseMoor(tables: [Todos, ListProduits, Tarifs, Produits, FormatImages], daos: [TodosDao])
+@UseMoor(tables: [Todos, InfosGenerales, Tarifs, Produits, FormatImages, AutreColoris, References], daos: [TodosDao])
 class MyDatabase extends _$MyDatabase{
   MyDatabase() : super(FlutterQueryExecutor.inDatabaseFolder(path: 'db.sqlite',));
 
@@ -15,7 +17,7 @@ class MyDatabase extends _$MyDatabase{
   int get schemaVersion => 1;
 }
 
-@UseDao(tables: [Todos, ListProduits, Tarifs, Produits, FormatImages])
+@UseDao(tables: [Todos, InfosGenerales, Tarifs, Produits, FormatImages, AutreColoris, References])
 class TodosDao extends DatabaseAccessor<MyDatabase> with _$TodosDaoMixin {
   TodosDao(MyDatabase db) : super(db);
 

@@ -120,13 +120,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  cli_util:
-    dependency: transitive
-    description:
-      name: cli_util
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.3+2"
   code_builder:
     dependency: transitive
     description:
@@ -278,12 +271,19 @@ packages:
     source: hosted
     version: "0.6.1+1"
   json_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  json_serializable:
+    dependency: "direct dev"
+    description:
+      name: json_serializable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.3"
   kernel:
     dependency: transitive
     description:
@@ -320,12 +320,14 @@ packages:
     source: hosted
     version: "0.9.6+3"
   moor:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
-      name: moor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.0"
+      path: moor
+      ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
+      resolved-ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
+      url: "https://github.com/Elvis5566/moor"
+    source: git
+    version: "2.1.0"
   moor_flutter:
     dependency: "direct main"
     description:
@@ -336,10 +338,12 @@ packages:
   moor_generator:
     dependency: "direct dev"
     description:
-      name: moor_generator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.0"
+      path: moor_generator
+      ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
+      resolved-ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
+      url: "https://github.com/Elvis5566/moor"
+    source: git
+    version: "2.1.1"
   nested:
     dependency: transitive
     description:
@@ -491,7 +495,7 @@ packages:
       name: sqlparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.4.0"
   stack_trace:
     dependency: transitive
     description:
