@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_poc/blocs/todo/todo_bloc.dart';
-import 'package:todo_poc/blocs/todo/todo_event.dart';
-import 'package:todo_poc/blocs/todo/todo_repository.dart';
-import 'package:todo_poc/db/my_database.dart';
-
-import 'blocs/todo/todo_state.dart';
+import 'package:todo_poc/blocs/user_bloc.dart';
+import 'package:todo_poc/blocs/user_event.dart';
+import 'package:todo_poc/blocs/user_state.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,8 +24,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<TodoBloc>(
-        create: (context) => TodoBloc(TodosRepository(TodosDao(MyDatabase()))),
+      home: BlocProvider<UserBloc>(
+        create: (context) => UserBloc(),
         child: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
@@ -45,18 +42,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TodoBloc _todoBloc;
-  TextEditingController _todoController = TextEditingController();
+  UserBloc _userBloc;
+  TextEditingController _userController = TextEditingController();
 
   @override
   void dispose() {
-    _todoController.dispose();
+    _userController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _todoBloc = BlocProvider.of<TodoBloc>(context);
+    _userBloc = BlocProvider.of<UserBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,51 +65,30 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             /// DATA LISTE
             Expanded(
-              child: BlocBuilder<TodoBloc, TodoState>(
-                builder: (context, TodoState state){
-                  if(state is TodosLoaded){
-                    var list = (BlocProvider.of<TodoBloc>(context).state as TodosLoaded).todos;
+              child: BlocBuilder<UserBloc, UserState>(
+                builder: (context, UserState state){
+                  if(state is UsersLoaded){
+                    var list = (BlocProvider.of<UserBloc>(context).state as UsersLoaded).users;
 
                     return ListView.builder(
                         itemCount: list.length,
                         itemBuilder: (ctx, index) => Row(
                           children: <Widget>[
-                            Expanded(child: Text(list[index].note.toString()),),
+                            Expanded(child: Text(list[index].login),),
                             IconButton(
                               icon: Icon(Icons.delete),
-                              onPressed: () => _todoBloc.add(DeleteTodo(list[index])),
+                              onPressed: () => _userBloc.add(DeleteUser(list[index])),
                             )
                           ],
                         )
                     );
                   } else {
-                    _todoBloc.add(LoadTodos());
+                    _userBloc.add(LoadUsers());
                     return Text("Pas de données");
                   }
                 },
               ),
             ),
-
-            /// Saisie
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: _todoController,
-                    decoration: InputDecoration(
-                        labelText: "Saisissez un texte"
-                    ),
-                  ),
-                ),
-
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: () {
-                    _todoBloc.add(AddTodo(Todo(id: 0, isComplete: false, note: _todoController.text, task: "lol")));
-                  },
-                )
-              ],
-            )
 
           ],
         ),
