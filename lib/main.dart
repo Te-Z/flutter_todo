@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_poc/blocs/user_bloc.dart';
-import 'package:todo_poc/blocs/user_event.dart';
-import 'package:todo_poc/blocs/user_state.dart';
+import 'package:todo_poc/blocs/photo_bloc.dart';
+import 'package:todo_poc/blocs/photo_event.dart';
+import 'package:todo_poc/blocs/photo_state.dart';
+import 'package:todo_poc/models/photo.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,8 +25,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<UserBloc>(
-        create: (context) => UserBloc(),
+      home: BlocProvider<PhotoBloc>(
+        create: (context) => PhotoBloc(),
         child: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
@@ -42,18 +43,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  UserBloc _userBloc;
-  TextEditingController _userController = TextEditingController();
+  PhotoBloc _photoBloc;
+  TextEditingController _photoController = TextEditingController();
 
   @override
   void dispose() {
-    _userController.dispose();
+    _photoController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _userBloc = BlocProvider.of<UserBloc>(context);
+    _photoBloc = BlocProvider.of<PhotoBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -65,25 +66,38 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             /// DATA LISTE
             Expanded(
-              child: BlocBuilder<UserBloc, UserState>(
-                builder: (context, UserState state){
-                  if(state is UsersLoaded){
-                    var list = (BlocProvider.of<UserBloc>(context).state as UsersLoaded).users;
+              child: BlocBuilder<PhotoBloc, PhotoState>(
+                builder: (context, PhotoState state){
+                  if(state is PhotosLoaded){
+                    var list = (BlocProvider.of<PhotoBloc>(context).state as PhotosLoaded).photos;
 
-                    return ListView.builder(
-                        itemCount: list.length,
-                        itemBuilder: (ctx, index) => Row(
-                          children: <Widget>[
-                            Expanded(child: Text(list[index].login),),
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => _userBloc.add(DeleteUser(list[index])),
-                            )
-                          ],
-                        )
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 8.0),
+                          child: Text("${list.length} items "),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: list.length,
+                              itemBuilder: (ctx, index) {
+                                Photo photo = list[index];
+
+                                return Container(
+                                  margin: EdgeInsets.only(top: 8.0),
+                                  child: ListTile(
+                                    leading: Image.network(photo.thumbnailUrl),
+                                    title: Text(photo.title),
+                                  ),
+                                );
+                              }
+                          ),
+                        ),
+                      ],
                     );
                   } else {
-                    _userBloc.add(LoadUsers());
+                    _photoBloc.add(LoadPhotos());
                     return Text("Pas de données");
                   }
                 },
