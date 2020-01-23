@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.38.5"
-  analyzer_plugin:
-    dependency: transitive
-    description:
-      name: analyzer_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   archive:
     dependency: transitive
     description:
@@ -319,31 +312,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+3"
-  moor:
-    dependency: "direct overridden"
-    description:
-      path: moor
-      ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
-      resolved-ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
-      url: "https://github.com/Elvis5566/moor"
-    source: git
-    version: "2.1.0"
-  moor_flutter:
-    dependency: "direct main"
-    description:
-      name: moor_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  moor_generator:
-    dependency: "direct dev"
-    description:
-      path: moor_generator
-      ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
-      resolved-ref: "948cc97262e9d261f6c23f1c157dd7e550f56b1a"
-      url: "https://github.com/Elvis5566/moor"
-    source: git
-    version: "2.1.1"
   nested:
     dependency: transitive
     description:
@@ -380,12 +348,19 @@ packages:
     source: hosted
     version: "1.0.10"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.4"
+  path_provider:
+    dependency: "direct main"
+    description:
+      name: path_provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.1"
   pedantic:
     dependency: transitive
     description:
@@ -400,6 +375,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
+  platform:
+    dependency: transitive
+    description:
+      name: platform
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.1"
   pool:
     dependency: transitive
     description:
@@ -435,13 +417,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  recase:
-    dependency: transitive
-    description:
-      name: recase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   rxdart:
     dependency: transitive
     description:
@@ -483,19 +458,12 @@ packages:
     source: hosted
     version: "1.5.5"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  sqlparser:
-    dependency: transitive
-    description:
-      name: sqlparser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
   stack_trace:
     dependency: transitive
     description:

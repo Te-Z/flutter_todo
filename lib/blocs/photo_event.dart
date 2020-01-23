@@ -8,7 +8,8 @@ abstract class PhotoEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPhotos extends PhotoEvent {}
+class LoadPhotosFromNetwork extends PhotoEvent {}
+class LoadPhotosFromDB extends PhotoEvent {}
 
 class AddPhoto extends PhotoEvent {
   final Photo photo;

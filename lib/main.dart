@@ -4,6 +4,8 @@ import 'package:todo_poc/blocs/photo_bloc.dart';
 import 'package:todo_poc/blocs/photo_event.dart';
 import 'package:todo_poc/blocs/photo_state.dart';
 import 'package:todo_poc/models/photo.dart';
+import 'package:todo_poc/ui/network_screen.dart';
+import 'package:todo_poc/ui/sqlite_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider<PhotoBloc>(
         create: (context) => PhotoBloc(),
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
+        child: MyHomePage(title: 'Demo synchro de bases'),
       ),
     );
   }
@@ -43,70 +45,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  PhotoBloc _photoBloc;
-  TextEditingController _photoController = TextEditingController();
-
-  @override
-  void dispose() {
-    _photoController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    _photoBloc = BlocProvider.of<PhotoBloc>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Container(
-        margin: EdgeInsets.all(16.0),
-        child: Column(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(icon: Icon(Icons.wifi), text: "API"),
+              Tab(icon: Icon(Icons.memory), text: "SQLite")
+            ],
+          ),
+        ),
+        body: TabBarView(
           children: <Widget>[
-            /// DATA LISTE
-            Expanded(
-              child: BlocBuilder<PhotoBloc, PhotoState>(
-                builder: (context, PhotoState state){
-                  if(state is PhotosLoaded){
-                    var list = (BlocProvider.of<PhotoBloc>(context).state as PhotosLoaded).photos;
-
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 8.0),
-                          child: Text("${list.length} items "),
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                              itemCount: list.length,
-                              itemBuilder: (ctx, index) {
-                                Photo photo = list[index];
-
-                                return Container(
-                                  margin: EdgeInsets.only(top: 8.0),
-                                  child: ListTile(
-                                    leading: Image.network(photo.thumbnailUrl),
-                                    title: Text(photo.title),
-                                  ),
-                                );
-                              }
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    _photoBloc.add(LoadPhotos());
-                    return Text("Pas de données");
-                  }
-                },
-              ),
-            ),
-
+            NetworkScreen(),
+            SQLiteScreen()
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

@@ -10,16 +10,22 @@ abstract class PhotoState extends Equatable {
 
 class PhotosLoading extends PhotoState {}
 
-class PhotosLoaded extends PhotoState {
+class PhotosLoadedFromNetwork extends PhotoState {
   final List<Photo> photos;
 
-  const PhotosLoaded([this.photos = const []]);
+  const PhotosLoadedFromNetwork([this.photos = const []]);
 
   @override
   List<Photo> get props => photos;
+}
+
+class PhotosLoadedFromDB extends PhotoState {
+  final List<Photo> photos;
+
+  const PhotosLoadedFromDB([this.photos = const []]);
 
   @override
-  String toString() => 'UsersLoaded { users: $photos }';
+  List<Photo> get props => photos;
 }
 
 class PhotosNotLoaded extends PhotoState {}

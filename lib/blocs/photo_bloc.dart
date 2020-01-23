@@ -12,18 +12,31 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
 
   @override
   Stream<PhotoState> mapEventToState(event) async*{
-    print("mapEventToState = $event");
-    if (event is LoadPhotos) {
-      yield* _mapLoadPhotosToState();
+    if (event is LoadPhotosFromNetwork) {
+      yield* _mapLoadPhotosFromNetworkToState();
+    } else if (event is LoadPhotosFromDB) {
+      yield* _mapLoadPhotosFromDBToState();
     } else if (event is AddPhoto) {
       yield* _mapAddPhotosToState(event);
     }
   }
 
-  Stream<PhotoState> _mapLoadPhotosToState() async* {
+  Stream<PhotoState> _mapLoadPhotosFromNetworkToState() async* {
     try {
-      final photos = await this.repository.getAllPhotos();
-      yield PhotosLoaded(photos);
+      final photos = await this.repository.getAllPhotosFromNetwork();
+      yield PhotosLoadedFromNetwork(photos);
+    } catch (e){
+      print("_mapLoadPhotosToState: PhotosNotLoaded ==> $e");
+      yield PhotosNotLoaded();
+    }
+  }
+
+  Stream<PhotoState> _mapLoadPhotosFromDBToState() async* {
+    try {
+
+      final photos = await this.repository.getAllPhotosFromDB();
+      print("_mapLoadPhotosFromDBToState: ${photos.length} photos found");
+      yield PhotosLoadedFromDB(photos);
     } catch (e){
       print("_mapLoadPhotosToState: PhotosNotLoaded ==> $e");
       yield PhotosNotLoaded();
@@ -31,13 +44,15 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   }
 
   Stream<PhotoState> _mapAddPhotosToState(AddPhoto event) async* {
-    if(state is PhotosLoaded){
-      final List<Photo> updatedPhotos = List.from((state as PhotosLoaded).photos)
+    if(state is PhotosLoadedFromNetwork){
+      final List<Photo> updatedPhotos = List.from((state as PhotosLoadedFromNetwork).photos)
           ..add(event.photo);
 
-      yield PhotosLoaded(updatedPhotos);
-      print("updatedPhotos[0]: ${updatedPhotos[0]}");
-      repository.addPhotoEntry(updatedPhotos[0].createCompanion(true));
+      yield PhotosLoadedFromDB(updatedPhotos);
+      print("_mapAddPhotosToState: adding ${updatedPhotos[0].title} (${updatedPhotos.length} other photos)");
+      repository.addPhotoEntry(event.photo).then((v) => print("insertion done $v")).catchError((e) => print("insertion failed => $e"));
+    } else {
+      print("nope ==> $state");
     }
   }
 

@@ -23,9 +23,11 @@ dependencies:
   flutter_bloc: ^3.1.0
   equatable: ^1.0.2
 
-  moor_flutter: ^2.0.0
-
   json_annotation: ^3.0.1
+
+  sqflite:
+  path_provider: any
+  path: any
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -36,22 +38,7 @@ dev_dependencies:
     sdk: flutter
 
   build_runner:
-  moor_generator: # version custom de Moor: https://github.com/simolus3/moor/issues/114#issuecomment-531566606 (prochainement intégré au repo officiel)
-    git:
-      url: https://github.com/Elvis5566/moor
-      ref: 948cc97262e9d261f6c23f1c157dd7e550f56b1a
-      path: moor_generator
   json_serializable:
-
-  flutter_bloc: ^3.1.0
-
-dependency_overrides:
-  moor:
-    #    path: /Users/elvislee/workspace/dart/moor/moor
-    git:
-      url: https://github.com/Elvis5566/moor
-      ref: 948cc97262e9d261f6c23f1c157dd7e550f56b1a
-      path: moor
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
