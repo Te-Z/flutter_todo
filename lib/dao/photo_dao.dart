@@ -43,6 +43,13 @@ class PhotoDao implements Dao<Photo> {
 
   Future<Photo> addPhotoEntry(Photo photo) async {
     final db = await _dbProvider.database;
+
+    List<Map> map = await db.query(tableName, where: "id = ?", whereArgs: [photo.id]);
+
+    if(map.isNotEmpty){
+      await db.delete(tableName, where: "id = ?", whereArgs: [photo.id]);
+    }
+
     photo.id = await db.insert(tableName, toMap(photo));
     print("addPhotoEntry: new entry = ${photo.id}");
     return photo;
