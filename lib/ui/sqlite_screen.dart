@@ -15,6 +15,12 @@ class _SQLiteScreenState extends State<SQLiteScreen> {
   TextEditingController _photoController = TextEditingController();
 
   @override
+  void initState() {
+    _photoBloc = BlocProvider.of<PhotoBloc>(context);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _photoController.dispose();
     super.dispose();
@@ -53,6 +59,12 @@ class _SQLiteScreenState extends State<SQLiteScreen> {
                                 child: ListTile(
                                   leading: Image.network(photo.thumbnailUrl),
                                   title: Text(photo.title),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      _photoBloc.add(DeletePhoto(photo));
+                                    },
+                                  ),
                                 ),
                               );
                             }
@@ -73,6 +85,4 @@ class _SQLiteScreenState extends State<SQLiteScreen> {
       ),
     );
   }
-
-
 }

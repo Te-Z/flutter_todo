@@ -17,4 +17,6 @@ class PhotosRepository {
   Future<List<Photo>> getAllPhotosFromDB() => _dao.getAllPhotos();
 
   Future<Photo> addPhotoEntry(Photo entry) => _dao.addPhotoEntry(entry);
+
+  Future<Photo> deletePhoto(Photo entry) => _dao.deletePhoto(entry);
 }

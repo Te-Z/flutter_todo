@@ -15,6 +15,12 @@ class _NetworkScreenState extends State<NetworkScreen> {
   TextEditingController _photoController = TextEditingController();
 
   @override
+  void initState() {
+    _photoBloc = BlocProvider.of<PhotoBloc>(context);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _photoController.dispose();
     super.dispose();
@@ -22,7 +28,6 @@ class _NetworkScreenState extends State<NetworkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _photoBloc = BlocProvider.of<PhotoBloc>(context);
 
     return Container(
       margin: EdgeInsets.all(16.0),

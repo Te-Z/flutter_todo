@@ -23,6 +23,8 @@ class AddPhoto extends PhotoEvent {
   String toString() => 'AddPhoto { user: $photo }';
 }
 
+class AddAllPhotoFromNetworkToDB extends PhotoEvent {}
+
 class UpdatePhoto extends PhotoEvent {
   final Photo photo;
 

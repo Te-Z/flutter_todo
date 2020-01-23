@@ -28,4 +28,6 @@ class PhotosLoadedFromDB extends PhotoState {
   List<Photo> get props => photos;
 }
 
+class PhotosLoadedToDB extends PhotoState {}
+
 class PhotosNotLoaded extends PhotoState {}
