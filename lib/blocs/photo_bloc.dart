@@ -73,12 +73,12 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     try {
       final photos = await this.repository.getAllPhotosFromNetwork();
       for(Photo photo in photos){
-        print("_mapAddAllPhotoFromNetworkToDB: adding photo ${photos.indexOf(photo) - 1} / ${photos.length}");
         repository.addPhotoEntry(photo)
             .then((_) => print("_mapAddAllPhotoFromNetworkToDB: photo ${photos.indexOf(photo) - 1} / ${photos.length}"))
             .catchError((e) => print("_mapAddAllPhotoFromNetworkToDB: error on photo ${photos.indexOf(photo) - 1} / ${photos.length} ==> $e"));
       }
-      yield PhotosLoadedToDB();
+      print("_mapAddAllPhotoFromNetworkToDB: DONE");
+      yield PhotosLoadedFromDB(photos);
     } catch(e) {
       print("_mapLoadPhotosToState: PhotosNotLoaded ==> $e");
       yield PhotosNotLoaded();
