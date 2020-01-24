@@ -73,6 +73,7 @@ class _MyAppState extends State<MyApp> {
 
       _bloc.add(AddAllPhotoFromNetworkToDB());
 
+      _bloc.close();
       /// IMPORTANT: Vous devez signaler explicitement la fin de la tâche sous peine de voir l'application pénalisée par l'OS
       /// du fait d'une tâche trop longue en background
       BackgroundFetch.finish();
