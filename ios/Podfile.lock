@@ -6,6 +6,8 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - ios_app_group (1.0.0):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - sqflite (0.0.1):
@@ -16,6 +18,7 @@ DEPENDENCIES:
   - AppSpectorSDK
   - background_fetch (from `.symlinks/plugins/background_fetch/ios`)
   - Flutter (from `Flutter`)
+  - ios_app_group (from `.symlinks/plugins/ios_app_group/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
@@ -29,6 +32,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/background_fetch/ios"
   Flutter:
     :path: Flutter
+  ios_app_group:
+    :path: ".symlinks/plugins/ios_app_group/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   sqflite:
@@ -39,6 +44,7 @@ SPEC CHECKSUMS:
   background_fetch: 81de747c63e1ec3558e222af758c1b5fa2662c70
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  ios_app_group: 87321d24fcc60c7efc177aeffff1e63ba7d953d1
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
 
